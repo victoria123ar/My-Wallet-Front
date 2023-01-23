@@ -15,13 +15,15 @@ export default function ImputLogin(setUsuario) {
 
     const postData = {
       email: email,
-      password: senha,
+      senha: senha,
     };
 
+    console.log(postData)
+
     axios
-      .post("url", postData)
+      .post(`${process.env.DATABASE_URL}/`, postData)
       .then((resposta) => {
-        setUsuario(resposta.data.name);
+        setUsuario(resposta.data.nome);
         navigate("/home");
       })
       .catch((erro) => {
@@ -29,6 +31,7 @@ export default function ImputLogin(setUsuario) {
         setDesabilitado(false);
       });
   }
+
   return (
     <Form onSubmit={(e) => login(e)}>
       <input

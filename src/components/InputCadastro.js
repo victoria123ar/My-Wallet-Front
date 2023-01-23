@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ImputCadastro(setUsuario) {
+export default function InputCadastro(setUsuario) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -16,9 +16,9 @@ export default function ImputCadastro(setUsuario) {
     setDesabilitado(true);
 
     const postData = {
-      name: nome,
+      nome: nome,
       email: email,
-      password: senha,
+      senha: senha,
     };
 
     if(senha !== confirmarSenha){
@@ -27,9 +27,9 @@ export default function ImputCadastro(setUsuario) {
     }
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/cadastro`, postData)
+      .post(`${process.env.DATABASE_URL}/cadastro`, postData)
       .then((resposta) => {
-        setUsuario(resposta.data.name);
+        setUsuario(resposta.data.nome);
         navigate("/");
       })
       .catch((erro) => {

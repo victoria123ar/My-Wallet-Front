@@ -1,14 +1,57 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Token } from "../context/Token";
+import axios from "axios";
 
 export default function Entrada() {
+
+  const { jwt } = useContext(Token);
+  const navigate = useNavigate();
+  const [valor, setValor] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [tipo, setTipo] = useState("");
+  
+  if (!jwt) {
+    navigate("/");
+  }
+
+  function entrada(e) {
+    e.preventDefault();
+
+    const postData = {
+      valor: valor,
+      decricao: descricao,
+      tipo: tipo,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/transacoes`, postData)
+      .then((resposta) => {
+        setValor(resposta.data.valor);
+        setDescricao(resposta.data.descricao);
+        setTipo("entrada");
+        navigate("/home");
+      })
+      .catch((erro) => {
+        alert(erro.response.data.message);
+      });
+  }
+
   return (
     <Container>
       <Titulo>Nova entrada</Titulo>
-      <Form>
-        <input placeholder="Valor" type="text" />
-        <input placeholder="Descrição" type="text" />
-        <Botao>Salvar entrada</Botao>
+      <Form onSubmit={(e) => entrada(e)}>
+        <input placeholder="Valor" type="text" value={valor}
+        onChange={(e) => setValor(e.target.value)}/>
+        <input placeholder="Descrição" type="text" value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}/>
+        <Botao>
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            Salvar entrada
+            </Link>
+          </Botao>
       </Form>
     </Container>
   );
@@ -27,11 +70,9 @@ const Titulo = styled.h1`
   width: 100%;
   display: flex;
   align-items: center;
-
   margin-top: 30px;
   margin-bottom: 40px;
   margin-left: 50px;
-
   font-family: "Raleway";
   font-size: 26px;
   color: #ffff;

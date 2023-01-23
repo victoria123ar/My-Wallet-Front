@@ -1,4 +1,4 @@
-import ImputCadastro from "../components/ImputCadastro";
+import InputCadastro from "../components/InputCadastro";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ export default function Cadastro() {
   return (
     <Container>
       <Titulo>MyWallet</Titulo>
-      <ImputCadastro />
+      <InputCadastro />
       <Link to="/" style={{ textDecoration: "none" }}>
         <p>Já tem uma conta? Entre agora!</p>
       </Link>
@@ -36,6 +36,5 @@ const Titulo = styled.h1`
   font-size: 32px;
   font-weight: 400;
   color: #ffff;
-  
   margin-bottom: 35px;
 `;
